@@ -1,0 +1,73 @@
+
+#******************** Settings ************************
+
+*** Settings ***
+
+Documentation	Testing the Projects page.
+
+Pre Condition	 Open Browser, Sign In
+Post Condition	 Sign Out, Close All Browsers
+Tags			 Project
+
+#******************* Common Variables ********************
+
+*** Variables ***
+
+# NOTE: Please Remove your login credential before uploading Assignments
+
+LoginUrl1 = https://gitlab.com/projects/new#blank_project
+LoginUrl2 = https://gitlab.com/projects/new#create_from_template
+ProjectName1 = testing1
+ProjectName2 = TestingTemplate
+ProjectNameNew = NewTesting
+
+
+
+#******************** Test Cases *************************
+
+*** Test Case ***
+
+# Positive Tests
+
+
+Creating a blank project
+	Navigate to ProjectPage LoginUrl1
+	Input Project name ProjectName1
+	Submit Create project
+	Verify page should contain Project was successfully created page
+
+Creating a template project
+	Navigate to ProjectPage LoginUrl2
+	Choose Ruby on Rails - Use template
+	Input Project name ProjectName2
+	Submit Create project
+	Verify page should contain The project was successfully imported.
+
+Updating the name of template project
+	Navigate to the Template page
+	Navigate to the Settings on the left side of the project page
+	Navigate to the General part of the Settings
+	Change the name of the Project name ProjectNameNew
+	Submit Save changes
+	Verify page should contain Project was successfully updated
+
+Deleting template project
+	Navigate to the Template page
+	Navigate to the Settings on the left side of the project page
+	Navigate to the General part of the Settings
+	Expand the Advanced part
+	Submit Delete this project
+	Submit the the given code to confirm
+	Submit Yes, delete project
+	Verify page should contain that the project will be deleted
+
+# Negative Tests
+
+Error message should be visible after using the same previous name
+	Navigate to ProjectPage LoginUrl1
+	Input Project name ProjectName1
+	Submit Create project
+	Verify page should contain The form contains the following error: Path has already been taken
+
+
+

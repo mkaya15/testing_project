@@ -1,0 +1,85 @@
+
+#******************** Settings ************************
+
+*** Settings ***
+
+Documentation	Testing the sign up /register page functionality. Sign up test scenario with valid and invalid information. 
+
+Pre Condition	Open Browser
+Post Condition	Close All Browsers
+Tags SignUp
+
+#******************* Common Variables ********************
+
+*** Variables ***
+
+# NOTE: Please Remove your login credential before uploading Assignments
+
+
+LoginUrl = https://gitlab.com/users/sign_up
+FirstName = Maria
+LastName = Kaya
+UserName = ZZXXVV
+TestUserName = ZZXXBB
+Email = student1@student.laurea.fi
+TestEmail1 = test.student@student.laurea.fi
+TestEmail2 = test.student
+Password = ***
+
+
+#******************** Test Cases *************************
+
+*** Test Case ***
+
+# Positive Tests
+
+Register user with valid username and password 
+	Navigate To SignUp page
+	Input First Name FirstName
+	Input Last Name LastName
+	Input Username Username
+	Input Email Email
+	Input Password Password
+	Submit Verification
+	Submit Register
+	Verify Registration page works
+
+
+# Negative Tests
+	
+Error message of trying to register again with the same username than in the valid sign up
+	Navigate to SignUp page LoginUrl
+	Input First Name FirstName
+	Input Last Name LastName
+	Verify that error message should show Username is already taken.
+
+Error message of empty password
+	Navigate To SignUp page loginUrl
+	Input First Name FirstName
+	Input Last Name LastName
+	Input Username TestUsername
+	Input Email TestEmail1
+	Submit Verification
+	Submit Register
+	Verify that error message should show Minimum length is 8 characters.
+
+Error message of invalid email
+	Navigate To SignUp page loginUrl
+	Input First Name FirstName
+	Input Last Name LastName
+	Input Username TestUsername
+	Input Email TestEmail2
+	Input Password Password
+	Submit Verification
+	Submit Register
+	Verify that error message should show Please provide a valid email address
+
+Error message of missing recaptcha
+	Navigate To SignUp page loginUrl
+	Input First Name FirstName
+	Input Last Name LastName
+	Input Username TestUsername
+	Input Email TestEmail1
+	Input Password Password
+	Submit Register
+	Verify that error message should show Complete verification to sign up
